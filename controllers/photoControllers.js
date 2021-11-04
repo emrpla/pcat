@@ -2,9 +2,20 @@ const Photo = require('../models/Photo');
 const fs = require('fs');
 
 exports.getAllPhotos = async (req, res) => {
-    const photos = await Photo.find({}).sort('-dateCreated');
+    const page = req.query.page || 1; // Url'de query yoksa direkt 1. sayfa olarak algıla
+    const photosPerPage = 2; // Bir sayfada kaç foto gözükeecek
+
+    const totalPhotos = await Photo.find().countDocuments(); // Veritabanında kaç foto var
+
+    const photos = await Photo.find({})
+        .sort('-dateCreated')
+        .skip((page - 1) * photosPerPage)
+        .limit(photosPerPage);
+
     res.render('index', {
         photos: photos,
+        current: page,
+        pages: Math.ceil(totalPhotos / photosPerPage),
     });
 };
 
