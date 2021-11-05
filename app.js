@@ -10,10 +10,21 @@ const pageController = require('./controllers/pageController');
 const app = express();
 
 // Connect DB
-mongoose.connect('mongodb://localhost/pcat-test-db', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-}); //Veritabanı yoksa oluşturur aynı zamanda
+mongoose
+    .connect(
+        'mongodb+srv://emre:LjYN4qX2bsw2ZZz5@pcat-deneme.z5bnm.mongodb.net/pcat-db?retryWrites=true&w=majority',
+        {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+        }
+    )
+    .then(() => {
+        console.log('Db Connected!');
+    })
+    .catch((err) => {
+        console.log(err);
+    });
+//if database doesn't exist create a new one
 
 // Template Engine
 app.set('view engine', 'ejs');
@@ -40,7 +51,7 @@ app.get('/about', pageController.getAboutPage);
 app.get('/add', pageController.getAddPage);
 app.get('/photos/edit/:id', pageController.getEditPage);
 
-const port = 3000;
+const port = process.env.PORT || 5000; // Use heroku port or use 5000
 app.listen(port, () => {
     console.log(`Sunucu ${port} portunda başlatıldı..`);
 });
