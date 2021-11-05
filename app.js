@@ -12,7 +12,7 @@ const app = express();
 // Connect DB
 mongoose
     .connect(
-        'mongodb+srv://emre:LjYN4qX2bsw2ZZz5@pcat-deneme.z5bnm.mongodb.net/pcat-db?retryWrites=true&w=majority',
+        'mongodb+srv://emre:password@pcat-deneme.z5bnm.mongodb.net/pcat-db?retryWrites=true&w=majority',
         {
             useNewUrlParser: true,
             useUnifiedTopology: true,
